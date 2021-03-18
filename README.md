@@ -35,7 +35,6 @@ To get a local copy up and running follow these simple example steps.
 
 ### Usage
 
-## Getting Started
 
 To get a local copy up and running follow these simple example steps.
 
@@ -45,7 +44,6 @@ To get a local copy up and running follow these simple example steps.
 4. Run `git checkout -b your-branch-name`. Make your contributions
 5. Push your branch up to your forked repository
 6. Open a Pull Request with a detailed description of the development branch of the original project for a review
->>>>>>> development
 
 ## Authors
 

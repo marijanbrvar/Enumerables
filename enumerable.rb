@@ -72,10 +72,9 @@ module Enumerable
   end
 
   def my_inject(*arguments)
-    p arguments.length
     case arguments.length
     when 1 then arguments.first.is_a?(Symbol) ? s = arguments.first : res = arguments.first
-    when 2 then res, s = arguments.first, arguments.last
+    when 2 then res, s = *arguments
     end
 
     res ||= 0

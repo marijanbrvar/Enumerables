@@ -4,7 +4,7 @@
 
 [Collaborative project]
 
-> In this project, we are implementing own version of Ruby’s enumerable methods.
+> In this project, we are implementing our version of Ruby's enumerable methods.
 
 Covered methods
 
@@ -30,6 +30,16 @@ Clone
 ```git
 git clone git@github.com:marijanbrvar/Enumerables.git
 ```
+
+To get a local copy up and running, follow these simple example steps.
+
+
+1. Open a terminal window and enter `fit clone https://github.com/marijanbrvar/BubbleSort.git`
+2. Make your new cloned directory your active directory
+3. Currently, you are in the "development branch."
+4. Change your current branch to enumerables branch `git checkout enumerables`
+5. Use `irb` to test folder with following console command `irb -I . -r enumerable.rb`
+6. Once you are in the irb console, use the syntax to invoke the method stated below
 
 ### Prerequisites
 

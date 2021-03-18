@@ -1,11 +1,23 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Project Name
+# Advanced Building Blocks - Enumerable Methods
+[Collaborative project]
 
-> One paragraph statement about the project.
-
-Additional description about the project and its features.
-
+> 
+> In this project, we are implementing own version of Ruby’s enumerable methods.
+>
+Covered methods
+- #my_each,
+ a method that is identical to #each.
+- #my_each_with_index
+- #my_select
+- #my_all?
+- #my_any?
+- #my_none?
+- #my_count
+- #my_map
+- #my_inject
+   - #multiply_els which multiplies all the elements of the array together by using #my_inject, e.g. multiply_els([2,4,5]) #=> 40
 ## Built With
 
 - Ruby

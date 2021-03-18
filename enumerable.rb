@@ -29,20 +29,25 @@ module Enumerable
   def my_all?
     return unless block_given?
 
-    res = my_select { |e| yield e }
+    res = my_select do |e|
+      return yield e
+    end
     length == res.length
   end
 
   def my_any?
     return unless block_given?
 
-    res = my_select { |e| yield e }
+    res = my_select do |e|
+      return yield e
+    end
 
     res.length.positive?
   end
 
   def my_none?
     return unless block_given?
+
     !my_any?
   end
 
@@ -50,7 +55,11 @@ module Enumerable
     return count if count
     return length unless block_given?
 
-    my_select { |n| yield n }.length
+    res = my_select.length do |n|
+      return yield n
+    end
+
+    res.length
   end
 
   def my_map(my_proc = nil)

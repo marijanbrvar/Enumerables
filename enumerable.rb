@@ -16,4 +16,13 @@ module Enumerable
       idx += 1
     end
   end
+
+  def my_select
+    return unless block_given?
+
+    array = []
+    my_each { |e| array << e if yield e }
+
+    array
+  end
 end

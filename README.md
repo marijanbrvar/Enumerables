@@ -7,7 +7,7 @@
 > In this project, we are implementing own version of Ruby’s enumerable methods.
 >
 Covered methods
-- #my_each,
+- #my_each
  a method that is identical to #each.
 - #my_each_with_index
 - #my_select

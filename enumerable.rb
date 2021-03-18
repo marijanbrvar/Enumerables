@@ -32,4 +32,17 @@ module Enumerable
     res = my_select { |e| yield e }
     length == res.length
   end
+
+  def my_any?
+    return unless block_given?
+
+    res = my_select { |e| yield e }
+
+    res.length.positive?
+  end
+
+  def my_none?
+    return unless block_given?
+    !my_any?
+  end
 end

@@ -47,8 +47,8 @@ module Enumerable
   end
 
   def my_count(count = nil)
-    retrun count if count
-    return unless block_given?
+    return count if count
+    return length unless block_given?
 
     my_select { |n| yield n }.length
   end
@@ -60,5 +60,23 @@ module Enumerable
     my_each { |n| array << yield(n) } if block_given?
 
     array
+  end
+
+  def my_inject(*arguments)
+    p arguments.length
+    case arguments.length
+    when 1 then arguments.first.is_a?(Symbol) ? s = arguments.first : res = arguments.first
+    when 2 then res, s = arguments.first, arguments.last
+    end
+
+    res ||= 0
+
+    my_each { |x| res = block_given? ? yield(res, x) : res.send(s, x) }
+
+    res
+  end
+
+  def my_multiply_els
+    my_inject(1, :*)
   end
 end

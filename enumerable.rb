@@ -25,4 +25,11 @@ module Enumerable
 
     array
   end
+
+  def my_all?
+    return unless block_given?
+
+    res = my_select { |e| yield e }
+    length == res.length
+  end
 end

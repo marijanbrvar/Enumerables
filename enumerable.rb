@@ -45,4 +45,11 @@ module Enumerable
     return unless block_given?
     !my_any?
   end
+
+  def my_count(count = nil)
+    retrun count if count
+    return unless block_given?
+
+    my_select { |n| yield n }.length
+  end
 end

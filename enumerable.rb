@@ -52,4 +52,13 @@ module Enumerable
 
     my_select { |n| yield n }.length
   end
+
+  def my_map(my_proc = nil)
+    array = []
+
+    my_each { |n| array << my_proc.call(n) } if my_proc
+    my_each { |n| array << yield(n) } if block_given?
+
+    array
+  end
 end

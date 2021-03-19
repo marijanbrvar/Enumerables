@@ -36,6 +36,8 @@ Style/FrozenStringLiteralComment:
   EnforcedStyle: never
 Style/CaseEquality:
   Enabled: false
+Style/ExplicitBlockArgument:
+  Enabled: false
 
 Layout/HashAlignment:
   EnforcedColonStyle: key

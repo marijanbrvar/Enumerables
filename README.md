@@ -90,6 +90,9 @@ Use IRB to test the code
 ```irb
 [1,5].my_map { |x| x * 2 }
 => [2, 10]
+
+[1,2,3,4,5].my_map Proc.new { |x| x * 4 }
+=> [4,8,12,16,20]
 ```
 
 #### #my_inject

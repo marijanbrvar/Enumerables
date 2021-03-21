@@ -51,7 +51,7 @@ module Enumerable
   def check_my_any?(attr)
     case attr
     when attr.instance_of?(Class) then my_any? { |x| x.instance_of?(attr) }
-    when attr.instance_of?(Regexp) then my_each my_any? { |x| x =~ attr }
+    when attr.instance_of?(Regexp) then my_any? { |x| x =~ attr }
     else my_any? { |x| x == attr }
     end
   end
@@ -76,6 +76,7 @@ module Enumerable
 
     my_select(&block).length
   end
+
   def my_map(my_proc = nil)
     return to_enum unless block_given?
 
@@ -99,7 +100,6 @@ module Enumerable
     attr
   end
 end
-
 
 def multiply_els(array)
   array.my_inject { |total, x| total * x }

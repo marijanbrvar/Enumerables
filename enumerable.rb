@@ -1,6 +1,6 @@
 module Enumerable
   def my_each
-    return self unless block_given?
+    return to_enum unless block_given?
 
     for i in self
       yield i
@@ -8,7 +8,7 @@ module Enumerable
   end
 
   def my_each_with_index
-    return self unless block_given?
+    return to_enum unless block_given?
 
     idx = 0
     for i in self
@@ -18,66 +18,87 @@ module Enumerable
   end
 
   def my_select
-    return self unless block_given?
+    return to_enum unless block_given?
 
     array = []
-    my_each { |e| array << e if yield e }
+    my_each { |x| array << x if yield x }
 
     array
   end
 
-  def my_all?
-    return self unless block_given?
+  def my_all?(attr = nil, &block)
+    return my_all_attr_check?(attr) unless attr.nil?
 
-    res = my_select { |e| yield e }
-    length == res.length
+    return (my_all? { |e| !e.nil? && e != false }) unless block_given?
+
+    my_select(&block).length.size
   end
 
-  def my_any?
-    return self unless block_given?
-
-    res = my_select { |e| yield e }
-
-    res.length.positive?
+  def my_all_attr_check?(attr)
+    my_all? { |x| x.instance_of?(attr) } if attr.instance_of?(Class)
+    my_all? { |x| x =~ attr } if attr.instance_of?(Regexp)
+    my_all? { |x| x == attr }
   end
 
-  def my_none?
-    return self unless block_given?
+  def my_any?(attr = nil, &block)
+    return my_any_attr_check?(attr) unless attr.nil?
 
-    res = my_select { |e| yield e }
+    return (my_any? { |e| !e.nil? && e != false }) unless block_given?
 
-    !res.length.positive?
+    my_each(&block).length.positive?
   end
 
-  def my_count(count = nil)
-    return count if count
-    return length unless block_given?
+  def my_any_attr_check?(attr)
+    my_any? { |x| x.instance_of?(attr) } if attr.instance_of?(Class)
+    my_any? { |x| x =~ attr } if attr.instance_of?(Regexp)
+    my_any? { |x| x == attr }
+  end
 
-    my_select { |n| yield n }.length
+  def my_none?(attr = nil)
+    return my_none_attr_check?(attr) unless attr.nil?
+
+    return (my_any? { |e| !e.nil? && e != false }) unless block_given?
+
+    !my_any?
+  end
+
+  def my_none_attr_check?(attr)
+    my_none? { |x| x.instance_of?(attr) } if attr.instance_of?(Class)
+    my_none? { |x| x =~ attr } if attr.instance_of?(Regexp)
+    my_none? { |x| x == attr }
+  end
+
+  def my_count(attr = nil, &block)
+    return my_count { |x| x == attr } unless attr.nil?
+    return (my_count { |_x| true }) unless block_given?
+
+    my_select(&block).length
   end
 
   def my_map(my_proc = nil)
+    return to_enum unless block_given?
+
     array = []
-    my_each { |n| array << my_proc.call(n) } if my_proc
-    my_each { |n| array << yield(n) } if block_given?
+    my_each { |x| array << my_proc.call(x) } if my_proc
+    my_each { |x| array << yield(x) } if block_given?
 
     array
   end
 
-  def my_inject(*arguments)
-    case arguments.length
-    when 1 then arguments.first.is_a?(Symbol) ? s = arguments.first : res = arguments.first
-    when 2 then res, s = arguments
+  def my_inject(attr = nil, sym = nil, &block)
+    attr = attr.to_sym if attr.is_a?(String) && !sym && !block
+    if attr.is_a?(Symbol) && !sym
+      block = attr.to_proc
+      attr = nil
     end
+    sym = sym.to_sym if sym.is_a?(String)
+    block = sym.to_proc if sym.is_a?(Symbol)
 
-    res ||= 0
-
-    my_each { |x| res = block_given? ? yield(res, x) : res.send(s, x) }
-
-    res
+    my_each { |x| attr = attr.nil? ? x : block.yield(attr, x) }
+    attr
   end
+end
 
-  def my_multiply_els
-    my_inject(1, :*)
-  end
+def multiply_els(array)
+  array.my_inject { |total, x| total * x }
 end

@@ -85,17 +85,9 @@ module Enumerable
     array
   end
 
-  def my_inject(attr = nil, sym = nil, &block)
-    attr = attr.to_sym if attr.is_a?(String) && !sym && !block
-    if attr.is_a?(Symbol) && !sym
-      block = attr.to_proc
-      attr = nil
-    end
-    sym = sym.to_sym if sym.is_a?(String)
-    block = sym.to_proc if sym.is_a?(Symbol)
-
-    my_each { |x| attr = attr.nil? ? x : block.yield(attr, x) }
-    attr
+  def my_inject(attr = nil)
+    my_each { |x| attr = attr.nil? ? x : yield(attr, x) }
+    memo
   end
 end
 

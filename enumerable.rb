@@ -76,12 +76,11 @@ module Enumerable
 
     my_select(&block).length
   end
-
   def my_map(my_proc = nil)
     return to_enum unless block_given?
 
     array = []
-    my_each { |x| array << my_proc.call(x) } if my_proc
+    my_each { |x| array << my_proc.call(x) } if my_proc && block_given?
     my_each { |x| array << yield(x) } if block_given?
 
     array
@@ -100,10 +99,10 @@ module Enumerable
     attr
   end
 end
-# rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
-public
 
 def multiply_els(array)
   array.my_inject { |total, x| total * x }
 end
+
+# rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

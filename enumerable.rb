@@ -53,6 +53,7 @@ module Enumerable
     end
     unless attr.nil?
       my_each { |v| return false if check_pattern?(v, attr) }
+      return true
     end
     !my_any?
   end

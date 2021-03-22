@@ -1,5 +1,3 @@
-# rubocop: disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
-
 module Enumerable
   def my_each
     return to_enum unless block_given?
@@ -38,37 +36,25 @@ module Enumerable
     true
   end
 
-  def my_any?(attr = nil)
-    return check_my_any?(attr) unless attr.nil?
-
-    return (my_any? { |x| !x.nil? && x != false }) unless block_given?
-
-    my_each do |value|
-      return true if yield value
+  def my_any?(attr = nil, &block)
+    if block_given? || attr.nil?
+      helper = block_given? ? block : proc { |v| v }
+      my_each { |v| return true if helper.call(v) }
+    else
+      my_each { |v| return true if check_pattern?(v, attr) }
     end
     false
   end
 
-  def check_my_any?(attr)
-    case attr
-    when attr.instance_of?(Class) then my_any? { |x| x.instance_of?(attr) }
-    when attr.instance_of?(Regexp) then my_any? { |x| x =~ attr }
-    else my_any? { |x| x == attr }
-    end
-  end
-
   def my_none?(attr = nil)
-    return my_none_attr_check?(attr) unless attr.nil?
-
-    return (my_any? { |e| !e.nil? && e != false }) unless block_given?
-
+    if block_given?
+      my_each { |v| return false if yield(v) }
+      return true
+    end
+    unless attr.nil?
+      my_each { |v| return false if check_pattern?(v, attr) }
+    end
     !my_any?
-  end
-
-  def my_none_attr_check?(attr)
-    !my_none? { |x| x.instance_of?(attr) } if attr.instance_of?(Class)
-    !my_none? { |x| x =~ attr } if attr.instance_of?(Regexp)
-    !my_none? { |x| x == attr }
   end
 
   def my_count(attr = nil, &block)
@@ -78,28 +64,43 @@ module Enumerable
     my_select(&block).length
   end
 
-  def my_map(my_proc = nil)
-    return to_enum unless block_given?
+  def my_map(proc = nil, &block)
+    return map_helper(proc) unless proc.nil?
+    return map_helper(block) if block_given?
 
-    array = []
-    my_each { |x| array << my_proc.call(x) } if my_proc && block_given?
-    my_each { |x| array << yield(x) } if block_given?
-
-    array
+    to_enum
   end
 
-  def my_inject(attr = nil, sym = nil, &block)
-    attr = attr.to_sym if attr.is_a?(String) && !sym && !block
-    if attr.is_a?(Symbol) && !sym
-      block = attr.to_proc
-      attr = nil
-    end
-    sym = sym.to_sym if sym.is_a?(String)
-    block = sym.to_proc if sym.is_a?(Symbol)
+  def my_inject(*args, &block)
+    array = to_a
 
-    my_each { |x| attr = attr.nil? ? x : block.yield(attr, x) }
-    attr
+    return inject_helper(array, args, block) if block_given?
+
+    raise LocalJumpError, 'no block given' if args.empty?
+
+    n = args.size == 2 ? args[0] : array[0]
+    sym = args.size == 2 ? args[1] : args[0]
+    idx = args.size == 2 ? 0 : 1
+
+    (idx...array.size).my_each { |x| n = n.send(sym, array[x]) }
+
+    n
   end
+end
+
+def inject_helper(array, args, block)
+  n = args.empty? ? array[0] : args[0]
+  idx = args.empty? ? 1 : 0
+
+  (idx...array.size).my_each { |x| n = block.call(n, array[x]) }
+
+  n
+end
+
+def map_helper(value)
+  new_array = []
+  my_each { |x| new_array << value.call(x) }
+  new_array
 end
 
 def check_pattern?(value, patt)
@@ -111,6 +112,3 @@ end
 def multiply_els(array)
   array.my_inject { |total, x| total * x }
 end
-
-
-# rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

@@ -28,11 +28,12 @@ module Enumerable
     array
   end
 
-  def my_all?(attr = nil)
-    case attr
-    when attr.is_a?(Class) then my_each { |v| return false unless v.is_a?(attr) }
-    when attr.is_a?(Regexp) then my_each { |v| return false unless v.to_s.match?(attr) }
-    when attr.nil? then my_each { |v| return false unless v == attr }
+  def my_all?(attr = nil, &block)
+    if block_given? || attr.nil?
+      helper = block_given? ? block : proc { |v| v }
+      my_each { |v| return false unless helper.call(v) }
+    else
+      my_each { |v| return false unless check_pattern?(v, attr) }
     end
     true
   end
@@ -101,8 +102,15 @@ module Enumerable
   end
 end
 
+def check_pattern?(value, patt)
+  return true if patt.is_a?(Class) && value.is_a?(patt)
+  return true if patt.is_a?(Regexp) && value =~ patt
+  return true if value == patt
+end
+
 def multiply_els(array)
   array.my_inject { |total, x| total * x }
 end
+
 
 # rubocop: enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

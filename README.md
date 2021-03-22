@@ -1,14 +1,14 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
 # Advanced Building Blocks - Enumerable Methods
+
 [Collaborative project]
 
-> 
-> In this project, we are implementing own version of Ruby’s enumerable methods.
->
+> In this project, we are implementing our version of Ruby's enumerable methods.
+
 Covered methods
-- #my_each,
- a method that is identical to #each.
+
+- #my_each
 - #my_each_with_index
 - #my_select
 - #my_all?
@@ -17,33 +17,99 @@ Covered methods
 - #my_count
 - #my_map
 - #my_inject
-   - #multiply_els which multiplies all the elements of the array together by using #my_inject, e.g. multiply_els([2,4,5]) #=> 40
+- #multiply_els which multiplies all the elements of the array together by using #my_inject, e.g. multiply_els([2,4,5]) #=> 40
+
 ## Built With
 
 - Ruby
 
 ## Getting Started
 
-**This is an example of how you may give instructions on setting up your project locally.**
-**Modify this file to match your project, remove sections that don't apply. For example: delete the testing section if the currect project doesn't require testing.**
+Clone
 
-To get a local copy up and running follow these simple example steps.
+```git
+git clone git@github.com:marijanbrvar/Enumerables.git
+```
+
+To get a local copy up and running, follow these simple example steps.
+
+
+1. Open a terminal window and enter `fit clone https://github.com/marijanbrvar/BubbleSort.git`
+2. Make your new cloned directory your active directory
+3. Currently, you are in the "development branch."
+4. Change your current branch to enumerables branch `git checkout enumerables`
+5. Use `irb` to test folder with following console command `irb -I . -r enumerable.rb`
+6. Once you are in the irb console, use the syntax to invoke the method stated below
 
 ### Prerequisites
 
-### Setup
+Ruby installed localy
 
 ### Usage
 
+Use IRB to test the code
+#### my_select
 
-To get a local copy up and running follow these simple example steps.
+```irb
+[1,2,3,4,5,6].my_select(&:even?)
+=> [2,4,6]
+```
 
-1. Go to https://github.com/marijanbrvar/BubbleSort.git
-2. Click on the code button and copy the HTTPS/ SSH URL.
-3. On terminal, type `git clone` command followed by pasting HTTPS/ SSH URL to clone this repository on your local machine.
-4. Run `git checkout -b your-branch-name`. Make your contributions
-5. Push your branch up to your forked repository
-6. Open a Pull Request with a detailed description of the development branch of the original project for a review
+#### my_all?
+
+```irb
+[1,2,3,4,5,6].my_all?(&:even?)
+=> false
+```
+
+#### my_any?
+
+```irb
+[1,2,3,4,5,6].my_any?(&:odd?)
+=> true
+```
+
+#### #my_none?
+
+```irb
+[1,2,3,4,5,6].my_none?(&:odd?)
+=> true
+```
+
+#### #my_count
+
+```irb
+[1,2,3].my_count
+=> 3
+[1,2,3].my_count { |x| x > 1}
+=> 2
+```
+
+#### #my_map
+
+```irb
+[1,5].my_map { |x| x * 2 }
+=> [2, 10]
+
+[1,2,3,4,5].my_map Proc.new { |x| x * 4 }
+=> [4,8,12,16,20]
+```
+
+#### #my_inject
+
+```irb
+(5..10).my_inject(:+)
+=> 45
+(5..10).my_inject { |sum, n| sum + n }
+=> 45
+```
+
+#### #multiply_els
+
+```irb
+[1,2,4,5,6].my_multiply_els
+=> 240
+```
 
 ## Authors
 

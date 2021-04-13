@@ -199,32 +199,31 @@ describe '#my_each' do
   end
 
   describe 'my_inject' do
-  it 'calls LocalJumpError' do
-    expect { [1, 2, 3].my_inject }.to raise_error LocalJumpError
-  end
+    it 'calls LocalJumpError' do
+      expect { [1, 2, 3].my_inject }.to raise_error LocalJumpError
+    end
 
-  context 'when block is given' do
-    context 'when parameter is given' do
-      it ' should return sum of all elements in array starting from parameter' do
-        expect([1, 2, 3].my_inject(5) { |sum, value| sum + value }).to eq(11)
-      end
-      context 'when parameter is not given' do
-        it ' should return sum of all elements in array' do
-          expect([1, 2, 3].my_inject { |sum, value| sum + value }).to eq(6)
+    context 'when block is given' do
+      context 'when parameter is given' do
+        it ' should return sum of all elements in array starting from parameter' do
+          expect([1, 2, 3].my_inject(5) { |sum, value| sum + value }).to eq(11)
+        end
+        context 'when parameter is not given' do
+          it ' should return sum of all elements in array' do
+            expect([1, 2, 3].my_inject { |sum, value| sum + value }).to eq(6)
+          end
         end
       end
     end
-  end
-  context 'when block is not given, starting point & symbol is given' do
-    it 'should return sum of arr elements starting from param' do
-      expect([1, 2, 3].my_inject(5, :+)).to eq(11)
+    context 'when block is not given, starting point & symbol is given' do
+      it 'should return sum of arr elements starting from param' do
+        expect([1, 2, 3].my_inject(5, :+)).to eq(11)
+      end
     end
-  end
-  context 'when block is not given,only symbol is given' do
-    it 'should return sum of arr elements ' do
-      expect([1, 2, 3].my_inject(:+)).to eq(6)
+    context 'when block is not given,only symbol is given' do
+      it 'should return sum of arr elements ' do
+        expect([1, 2, 3].my_inject(:+)).to eq(6)
+      end
     end
   end
 end
-end
-

@@ -54,4 +54,41 @@ describe '#my_each' do
       end
     end
   end
+  describe 'my_all?' do
+    context 'when block is given' do
+      it 'returns true if all conditions are met' do
+        array = [1, 2, 3, 5]
+        result = array.my_all? { |elem| elem.is_a?(Integer) }
+        expect(result).to eq true
+      end
+      it 'returns false if all conditions are not met' do
+        array = [1, 2, 3, 5, 'str']
+        result = array.my_all? { |elem| elem.is_a?(Integer) }
+        expect(result).to eq false
+      end
+    end
+    context 'when parameter is given' do
+      it 'should return true' do
+        array = [1, 2, 3]
+        expect(array.my_all?(Integer)).to be true
+      end
+      it 'should return false' do
+        array = [1, 1, 1, 'str']
+        expect(array.my_all?(Integer)).to be false
+      end
+      it 'should return true if empty' do
+        expect([].my_all?).to be true
+      end
+    end
+    context 'when parameter is not given' do
+      it 'should return true' do
+        array = [1, 2, 3]
+        expect(array.my_all?).to be true
+      end
+      it 'should return false' do
+        array = [1, 2, 3, nil]
+        expect(array.my_all?).to be false
+      end
+    end
+  end
 end

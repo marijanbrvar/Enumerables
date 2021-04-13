@@ -67,6 +67,7 @@ describe '#my_each' do
         expect(result).to eq false
       end
     end
+
     context 'when parameter is given' do
       it 'should return true' do
         array = [1, 2, 3]
@@ -80,6 +81,7 @@ describe '#my_each' do
         expect([].my_all?).to be true
       end
     end
+
     context 'when parameter is not given' do
       it 'should return true' do
         array = [1, 2, 3]
@@ -88,6 +90,40 @@ describe '#my_each' do
       it 'should return false' do
         array = [1, 2, 3, nil]
         expect(array.my_all?).to be false
+      end
+    end
+  end
+
+  describe 'my_any?' do
+    context 'when block is given' do
+      it 'should return true if any param meets condition' do
+        arr = [1, 2, 3, 4, 5]
+        expect(arr.my_any? { |num| num > 3 }).to eq(true)
+      end
+      it 'should return false if any param meets condition' do
+        arr = [8, 9, 10, 11]
+        expect(arr.my_any? { |num| num < 5 }).to eq(false)
+      end
+    end
+
+    context 'when parameter is given' do
+      it 'returns true when any element meet the condition' do
+        result = %w[a b c]
+        expect(result.my_any?(String)).to eq true
+      end
+
+      it 'returns false when any elements do not meet the condition' do
+        result = [2, 4, 6, 8]
+        expect(result.my_any?(String)).to eq false
+      end
+    end
+
+    context 'when parameter is not given' do
+      it 'returns true if any truthy elements' do
+        expect([1, 2, 3, 'str'].my_any?).to eq true
+      end
+      it 'returns false if all falsy elements' do
+        expect([nil, false].my_any?).to eq false
       end
     end
   end

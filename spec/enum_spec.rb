@@ -14,4 +14,22 @@ describe '#my_each' do
       expect(array.my_each).to be_a(Enumerator)
     end
   end
+  describe 'my_each_with_index' do
+    describe 'when block is given' do
+      it 'excutes each element with its index' do
+        array = []
+        sample = %w[a b c]
+        sample.my_each_with_index { |ele, idx| array[idx] = ele }
+        expect(array).to eq(%w[a b c])
+      end
+    end
+  end
+  describe 'my_each_with_index' do
+    describe 'when no block is given' do
+      it 'It will return Enumerator' do
+        array = %w[a b c]
+        expect(array.my_each_with_index).to be_a(Enumerator)
+      end
+    end
+  end
 end

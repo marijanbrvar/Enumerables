@@ -106,10 +106,11 @@ end
 
 def check_pattern?(value, patt)
   return true if patt.is_a?(Class) && value.is_a?(patt)
-  # return true if patt.is_a?(Regexp) && value =~ patt
-  # return true if value == patt
+  return true if patt.is_a?(Regexp) && value =~ patt
+  return true if value == patt
 end
 
 def multiply_els(array)
   array.my_inject { |total, x| total * x }
 end
+

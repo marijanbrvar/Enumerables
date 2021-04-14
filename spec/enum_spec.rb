@@ -78,6 +78,11 @@ describe '#my_each' do
         expect(result).to eq true
       end
       it 'returns true if all conditions are met' do
+        array = [2, 2, 2]
+        result = array.my_all? { |elem| elem == 2 }
+        expect(result).to eq true
+      end
+      it 'returns true if all conditions are met' do
         array = [1, 2, 3, 5]
         result = array.my_all? { |elem| elem.is_a?(Integer) }
         expect(result).not_to eq false
@@ -88,6 +93,11 @@ describe '#my_each' do
         expect(result).to eq false
       end
       it 'returns false if all conditions are not met' do
+      arr = [1, 1, 2]
+      result = arr.my_all? { |elem| elem == 1 }
+      expect(result).to eq(false)
+    end
+      it 'returns false if all conditions are not met' do
         array = [1, 2, 3, 5, 'str']
         result = array.my_all? { |elem| elem.is_a?(Integer) }
         expect(result).not_to eq true
@@ -95,7 +105,7 @@ describe '#my_each' do
     end
     context 'when parameter is given' do
       it 'should return true' do
-        array = [1, 2, 3]
+        array = [2, 2, 2]
         expect(array.my_all?(Integer)).to be true
       end
       it 'should return false' do
@@ -108,11 +118,11 @@ describe '#my_each' do
     end
     context 'when parameter is not given' do
       it 'should return true' do
-        array = [1, 2, 3]
+        array = [2, 2, 2]
         expect(array.my_all?).to be true
       end
       it 'should return false' do
-        array = [1, 2, 3, nil]
+        array = [1, 2, 3, false]
         expect(array.my_all?).to be false
       end
     end
@@ -142,10 +152,18 @@ describe '#my_each' do
         result = %w[a b c]
         expect(result.my_any?(String)).to eq true
       end
+      it 'returns true when any element meet the condition' do
+      arr = [2, 3, 5, 6]
+      expect(arr.my_any?(Integer)).to eq true
+      end
       it 'returns false when any elements do not meet the condition' do
         result = [2, 4, 6, 8]
         expect(result.my_any?(String)).to eq false
       end
+      it 'returns false when any elements do not meet the condition'  do
+      arr = [2, 3, 5, 6]
+      expect(arr.my_any?(String)).to eq false
+    end
     end
     context 'when parameter is not given' do
       it 'returns true if any truthy elements' do
@@ -160,12 +178,12 @@ describe '#my_each' do
   describe 'my_none' do
     context 'when block is given' do
       it 'returns true if no elements meet the condition' do
-        sample = [1, 2, 3]
-        expect(sample.my_none? { |n| n > 3 }).to eq(true)
+        sample = [1, 1, 1]
+        expect(sample.my_none? { |n| n > 2 }).to eq(true)
       end
       it 'returns true if no elements meet the condition' do
-        sample = [1, 2, 3]
-        expect(sample.my_none? { |n| n > 3 }).not_to eq(false)
+        sample = [1, 1, 1]
+        expect(sample.my_none? { |n| n > 2 }).not_to eq(false)
       end
       it 'returns false if any elements meet the condition' do
         sample = [1, 2, 3, 4]
@@ -178,10 +196,10 @@ describe '#my_each' do
     end
     context 'when parameter is given' do
       it 'returns true if no param meet the condition' do
-        expect([Integer, nil].my_none?(String)).to eq(true)
+        expect([true, 'str'].my_none?(Integer)).to eq(true)
       end
       it 'returns false if any param meet the condition' do
-        expect(['hello', 2].my_none?(String)).to eq(false)
+        expect([1, 2].my_none?(Integer)).to eq(false)
       end
     end
     context 'should return false if any truthy elements' do
@@ -214,10 +232,10 @@ describe '#my_each' do
     end
     context 'when parameter is given' do
       it ' returns the number of the elements in block matching parameter condition' do
-        expect([1, 2, 3, 'el'].my_count(Integer)).to eq(0)
+        expect([1, 2, 3, 'str'].my_count(Integer)).to eq(0)
       end
       it ' returns the number zero if no elements in block match the parameter condition' do
-        expect([false, 'two'].my_count(Integer)).to eq(0)
+        expect([false, nil].my_count(Integer)).to eq(0)
       end
     end
     context 'when param is not given' do

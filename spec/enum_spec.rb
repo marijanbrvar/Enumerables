@@ -204,7 +204,7 @@ describe '#my_each' do
         arr = [1, 2, 3]
         expect(arr.my_count { |counter| counter > 2 }).not_to eq(2)
       end
-      
+
       it 'should return the number zero if no elements matching the condition' do
         expect([1, 2, 3].my_count { |counter| counter > 3 }).to eq(0)
       end

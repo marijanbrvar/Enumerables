@@ -93,10 +93,10 @@ describe '#my_each' do
         expect(result).to eq false
       end
       it 'returns false if all conditions are not met' do
-      arr = [1, 1, 2]
-      result = arr.my_all? { |elem| elem == 1 }
-      expect(result).to eq(false)
-    end
+        arr = [1, 1, 2]
+        result = arr.my_all? { |elem| elem == 1 }
+        expect(result).to eq(false)
+      end
       it 'returns false if all conditions are not met' do
         array = [1, 2, 3, 5, 'str']
         result = array.my_all? { |elem| elem.is_a?(Integer) }
@@ -153,17 +153,17 @@ describe '#my_each' do
         expect(result.my_any?(String)).to eq true
       end
       it 'returns true when any element meet the condition' do
-      arr = [2, 3, 5, 6]
-      expect(arr.my_any?(Integer)).to eq true
+        arr = [2, 3, 5, 6]
+        expect(arr.my_any?(Integer)).to eq true
       end
       it 'returns false when any elements do not meet the condition' do
         result = [2, 4, 6, 8]
         expect(result.my_any?(String)).to eq false
       end
-      it 'returns false when any elements do not meet the condition'  do
-      arr = [2, 3, 5, 6]
-      expect(arr.my_any?(String)).to eq false
-    end
+      it 'returns false when any elements do not meet the condition' do
+        arr = [2, 3, 5, 6]
+        expect(arr.my_any?(String)).to eq false
+      end
     end
     context 'when parameter is not given' do
       it 'returns true if any truthy elements' do

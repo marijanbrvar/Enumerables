@@ -113,4 +113,3 @@ end
 def multiply_els(array)
   array.my_inject { |total, x| total * x }
 end
-
